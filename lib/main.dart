@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'difficulty.dart';
 
 void main() {
   runApp(MyApp());
@@ -147,7 +148,8 @@ class _TasksState extends State<Tasks> {
                                 fontSize: 24, overflow: TextOverflow.ellipsis),
                           ),
                         ),
-                        difficulty(widget: widget, widget: widget, widget: widget, widget: widget, widget: widget)
+                        Difficulty( difficultylevel: widget.dificuldade,
+                            )
                       ],
                     ),
                     Padding(
@@ -208,53 +210,4 @@ class _TasksState extends State<Tasks> {
   }
 }
 
-class difficulty extends StatelessWidget {
-  const difficulty({
-    Key? key,
 
-  }) : super(key: key);
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          Icons.star,
-          size: 15,
-          color: (widget.dificuldade >= 1)
-              ? Colors.blue
-              : Colors.blue[100],
-        ),
-        Icon(
-          Icons.star,
-          size: 15,
-          color: (widget.dificuldade >= 2)
-              ? Colors.blue
-              : Colors.blue[100],
-        ),
-        Icon(
-          Icons.star,
-          size: 15,
-          color: (widget.dificuldade >= 3)
-              ? Colors.blue
-              : Colors.blue[100],
-        ),
-        Icon(
-          Icons.star,
-          size: 15,
-          color: (widget.dificuldade >= 4)
-              ? Colors.blue
-              : Colors.blue[100],
-        ),
-        Icon(
-          Icons.star,
-          size: 15,
-          color: (widget.dificuldade >= 5)
-              ? Colors.blue
-              : Colors.blue[100],
-        ),
-      ],
-    );
-  }
-}
