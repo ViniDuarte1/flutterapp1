@@ -5,21 +5,34 @@ class Tasks extends StatefulWidget {
   final String nome;
   final String foto;
   final int dificuldade;
-  const Tasks(this.nome, this.foto, this.dificuldade, {Key? key})
-      : super(key: key);
+  int level = 0;
+  Tasks(this.nome, this.foto, this.dificuldade, {Key? key}) : super(key: key);
 
   @override
   State<Tasks> createState() => _TasksState();
 }
 
 class _TasksState extends State<Tasks> {
-  int level = 1;
   double? a;
+
+   maxControl() {
+    if (widget.level == (widget.dificuldade * 10) || a == 1) {
+      return 'MAX';
+    }
+    return 'UP';
+  }
+
+  bool imageTypeControl() {
+    if (widget.foto.contains('http')) {
+      return false;
+    }
+    return true;
+  }
 
   void levelUp() {
     setState(() {
       if (a != 1) {
-        level++;
+        widget.level++;
       }
     });
   }
@@ -59,7 +72,9 @@ class _TasksState extends State<Tasks> {
                       height: 100,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(4),
-                          child: Image.asset(widget.foto, fit: BoxFit.cover)),
+                          child: imageTypeControl()
+                              ? Image.asset(widget.foto, fit: BoxFit.cover)
+                              : Image.network(widget.foto, fit: BoxFit.cover)),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +106,7 @@ class _TasksState extends State<Tasks> {
                             children: [
                               const Icon(Icons.arrow_drop_up),
                               Text(
-                                (a == 1) ? 'MAX' : 'UP',
+                                (maxControl()) ,
                                 style: const TextStyle(fontSize: 9),
                               ),
                             ],
@@ -114,15 +129,15 @@ class _TasksState extends State<Tasks> {
                       child: LinearProgressIndicator(
                         color: Colors.white,
                         value: (widget.dificuldade > 0)
-                            ? (a = (level / widget.dificuldade) / 10)
-                            : (a = level / 1),
+                            ? (a = (widget.level / widget.dificuldade) / 10)
+                            : (a = widget.level / 1),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
-                      'Nivel: $level',
+                      'Nivel: ${widget.level}',
                       style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                   ),

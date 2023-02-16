@@ -1,70 +1,37 @@
 import 'package:flutter/material.dart';
-import '../components/task.dart';
+import '../data/task_inherited.dart';
+import 'form_screen.dart';
 
-class InitalScreen extends StatefulWidget {
-  const InitalScreen ({ Key? key }) : super(key: key);
+class InitialScreen extends StatefulWidget {
+  const InitialScreen({Key? key}) : super(key: key);
 
   @override
-  State<InitalScreen> createState() => _InitalScreenState();
+  State<InitialScreen> createState() => _InitialScreenState();
 }
 
-class _InitalScreenState extends State<InitalScreen> {
-  bool opacity = true;
-
+class _InitialScreenState extends State<InitialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-            title: const Text('Tarefas'),
-            leading: Container(),
-          ),
-          body: AnimatedOpacity(
-            opacity: opacity ? 1 : 0,
-            duration: const Duration(seconds: 2),
-            child: ListView(
-              children: const [
-                Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: Tasks(
-                    'Estudar Flutter',
-                    'assets/images/slime.jpg',
-                    5,
-                  ),
-                ),
-                Tasks(
-                  'Andar de Bike',
-                  'assets/images/slime.jpg',
-                  4,
-                ),
-                Tasks(
-                  'Ler',
-                  'assets/images/slime.jpg',
-                  3,
-                ),
-                Tasks(
-                  'Meditar',
-                  'assets/images/slime.jpg',
-                  2,
-                ),
-                Tasks(
-                  'Jogar',
-                  'assets/images/slime.jpg',
-                  0,
-                ),
-                SizedBox(
-                  height: 80,
-                )
-              ],
+      appBar: AppBar(
+        title: const Text('Tarefas'),
+        leading: Container(),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.only(top: 8, bottom: 70),
+        children: TaskInherited.of(context).taskList,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (contextNew) => FormScreen(taskContext: context,),
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                opacity = !opacity;
-              });
-            },
-            child: const Icon(Icons.remove_red_eye),
-          ));
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
-
